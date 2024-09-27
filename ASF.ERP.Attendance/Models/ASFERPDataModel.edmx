@@ -1,0 +1,849 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ASFAPIDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AttendanceApiKeys">
+          <Key>
+            <PropertyRef Name="KeyId" />
+          </Key>
+          <Property Name="KeyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KeyApi" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="AttendanceEvents">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SessionId" Type="int" Nullable="false" />
+          <Property Name="CollaboratorId" Type="int" Nullable="false" />
+          <Property Name="CostCenterId" Type="int" Nullable="false" />
+          <Property Name="Datetime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AttendanceFingerprints">
+          <Key>
+            <PropertyRef Name="FingerprintId" />
+          </Key>
+          <Property Name="FingerprintId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CollaboratorId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="Fingerprint" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AttendanceLocations">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AttendanceRoles">
+          <Key>
+            <PropertyRef Name="RolId" />
+          </Key>
+          <Property Name="RolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RolName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Inactive" Type="bit" />
+        </EntityType>
+        <EntityType Name="AttendanceSessions">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CollaboratorId" Type="int" Nullable="false" />
+          <Property Name="StartAS" Type="datetime" Nullable="false" />
+          <Property Name="EndAS" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CollaboratorJobPositions">
+          <Key>
+            <PropertyRef Name="CollaboratorJobPositionId" />
+          </Key>
+          <Property Name="CollaboratorJobPositionId" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mnemonic" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="CostNormalHour" Type="money" Nullable="false" />
+          <Property Name="CostExtraHour" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Collaborators">
+          <Key>
+            <PropertyRef Name="CollaboratorId" />
+          </Key>
+          <Property Name="CollaboratorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Firstname" Type="varchar" MaxLength="255" />
+          <Property Name="Lastname" Type="varchar" MaxLength="255" />
+          <Property Name="Lastname2" Type="varchar" MaxLength="255" />
+          <Property Name="EMail" Type="varchar" MaxLength="255" />
+          <Property Name="Tag" Type="int" />
+          <Property Name="CoordinatorLocationId" Type="int" />
+          <Property Name="CollaboratorJobPositionId" Type="smallint" />
+          <Property Name="AdmissionDate" Type="date" />
+          <Property Name="NSS" Type="varchar" MaxLength="20" />
+          <Property Name="CURP" Type="varchar" MaxLength="20" />
+          <Property Name="BACcount" Type="varchar" MaxLength="20" />
+          <Property Name="ResidenceId" Type="int" />
+          <Property Name="RFC" Type="varchar" MaxLength="13" />
+          <Property Name="StateId" Type="int" />
+          <Property Name="Proof" Type="varchar" MaxLength="255" />
+          <Property Name="IdEvent" Type="int" />
+          <Property Name="CreditNumber" Type="varchar" MaxLength="20" />
+          <Property Name="DiscountFactor" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DiscountTypeId" Type="int" />
+          <Property Name="ApplyInfonavitData" Type="bit" />
+          <Property Name="Inactive" Type="bit" />
+          <Property Name="RowVersion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CostCenters">
+          <Key>
+            <PropertyRef Name="CostCenterId" />
+          </Key>
+          <Property Name="CostCenterId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="WorkCenterId" Type="int" Nullable="false" />
+          <Property Name="Inactive" Type="bit" />
+          <Property Name="CostCenterStatusId" Type="tinyint" Nullable="false" />
+          <Property Name="ContainsSensitiveInformation" Type="bit" />
+          <Property Name="IsGeneric" Type="bit" />
+          <Property Name="AllowManualRequisitions" Type="bit" />
+        </EntityType>
+        <EntityType Name="CostCenterStatus">
+          <Key>
+            <PropertyRef Name="CostCenterStatusId" />
+          </Key>
+          <Property Name="CostCenterStatusId" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reasons">
+          <Key>
+            <PropertyRef Name="ReasonId" />
+          </Key>
+          <Property Name="ReasonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkCenters">
+          <Key>
+            <PropertyRef Name="WorkCenterId" />
+          </Key>
+          <Property Name="WorkCenterId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Site" Type="varchar" MaxLength="255" />
+          <Property Name="ReasonId" Type="int" />
+          <Property Name="Inactive" Type="bit" />
+          <Property Name="SeeAllCostCenters" Type="bit" />
+          <Property Name="FIS" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="LocationId" Type="int" />
+        </EntityType>
+        <Association Name="FK_AttendanceEvents_AttendanceSessions">
+          <End Role="AttendanceSessions" Type="Self.AttendanceSessions" Multiplicity="1" />
+          <End Role="AttendanceEvents" Type="Self.AttendanceEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceSessions">
+              <PropertyRef Name="SessionId" />
+            </Principal>
+            <Dependent Role="AttendanceEvents">
+              <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceEvents_Collaborators">
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="1" />
+          <End Role="AttendanceEvents" Type="Self.AttendanceEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collaborators">
+              <PropertyRef Name="CollaboratorId" />
+            </Principal>
+            <Dependent Role="AttendanceEvents">
+              <PropertyRef Name="CollaboratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceEvents_CostCenters">
+          <End Role="CostCenters" Type="Self.CostCenters" Multiplicity="1" />
+          <End Role="AttendanceEvents" Type="Self.AttendanceEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCenters">
+              <PropertyRef Name="CostCenterId" />
+            </Principal>
+            <Dependent Role="AttendanceEvents">
+              <PropertyRef Name="CostCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceFingerprints_AttendanceRoles">
+          <End Role="AttendanceRoles" Type="Self.AttendanceRoles" Multiplicity="1" />
+          <End Role="AttendanceFingerprints" Type="Self.AttendanceFingerprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceRoles">
+              <PropertyRef Name="RolId" />
+            </Principal>
+            <Dependent Role="AttendanceFingerprints">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceFingerprints_Collaborators">
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="1" />
+          <End Role="AttendanceFingerprints" Type="Self.AttendanceFingerprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collaborators">
+              <PropertyRef Name="CollaboratorId" />
+            </Principal>
+            <Dependent Role="AttendanceFingerprints">
+              <PropertyRef Name="CollaboratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceSessions_Collaborators">
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="1" />
+          <End Role="AttendanceSessions" Type="Self.AttendanceSessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collaborators">
+              <PropertyRef Name="CollaboratorId" />
+            </Principal>
+            <Dependent Role="AttendanceSessions">
+              <PropertyRef Name="CollaboratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Collaborators_CollaboratorJobPositions">
+          <End Role="CollaboratorJobPositions" Type="Self.CollaboratorJobPositions" Multiplicity="0..1" />
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollaboratorJobPositions">
+              <PropertyRef Name="CollaboratorJobPositionId" />
+            </Principal>
+            <Dependent Role="Collaborators">
+              <PropertyRef Name="CollaboratorJobPositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostCentersStatus_CostCenters">
+          <End Role="CostCenterStatus" Type="Self.CostCenterStatus" Multiplicity="1" />
+          <End Role="CostCenters" Type="Self.CostCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCenterStatus">
+              <PropertyRef Name="CostCenterStatusId" />
+            </Principal>
+            <Dependent Role="CostCenters">
+              <PropertyRef Name="CostCenterStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reasons_WorkCenters">
+          <End Role="Reasons" Type="Self.Reasons" Multiplicity="0..1" />
+          <End Role="WorkCenters" Type="Self.WorkCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reasons">
+              <PropertyRef Name="ReasonId" />
+            </Principal>
+            <Dependent Role="WorkCenters">
+              <PropertyRef Name="ReasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkCenters_AttendanceLocation">
+          <End Role="AttendanceLocations" Type="Self.AttendanceLocations" Multiplicity="0..1" />
+          <End Role="WorkCenters" Type="Self.WorkCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceLocations">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="WorkCenters">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkCenters_CostCenters">
+          <End Role="WorkCenters" Type="Self.WorkCenters" Multiplicity="1" />
+          <End Role="CostCenters" Type="Self.CostCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCenters">
+              <PropertyRef Name="WorkCenterId" />
+            </Principal>
+            <Dependent Role="CostCenters">
+              <PropertyRef Name="WorkCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ASFAPIDataModelStoreContainer">
+          <EntitySet Name="AttendanceApiKeys" EntityType="Self.AttendanceApiKeys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttendanceEvents" EntityType="Self.AttendanceEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttendanceFingerprints" EntityType="Self.AttendanceFingerprints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttendanceLocations" EntityType="Self.AttendanceLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttendanceRoles" EntityType="Self.AttendanceRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttendanceSessions" EntityType="Self.AttendanceSessions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CollaboratorJobPositions" EntityType="Self.CollaboratorJobPositions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Collaborators" EntityType="Self.Collaborators" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCenters" EntityType="Self.CostCenters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCenterStatus" EntityType="Self.CostCenterStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reasons" EntityType="Self.Reasons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkCenters" EntityType="Self.WorkCenters" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AttendanceEvents_AttendanceSessions" Association="Self.FK_AttendanceEvents_AttendanceSessions">
+            <End Role="AttendanceSessions" EntitySet="AttendanceSessions" />
+            <End Role="AttendanceEvents" EntitySet="AttendanceEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceEvents_Collaborators" Association="Self.FK_AttendanceEvents_Collaborators">
+            <End Role="Collaborators" EntitySet="Collaborators" />
+            <End Role="AttendanceEvents" EntitySet="AttendanceEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceEvents_CostCenters" Association="Self.FK_AttendanceEvents_CostCenters">
+            <End Role="CostCenters" EntitySet="CostCenters" />
+            <End Role="AttendanceEvents" EntitySet="AttendanceEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceFingerprints_AttendanceRoles" Association="Self.FK_AttendanceFingerprints_AttendanceRoles">
+            <End Role="AttendanceRoles" EntitySet="AttendanceRoles" />
+            <End Role="AttendanceFingerprints" EntitySet="AttendanceFingerprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceFingerprints_Collaborators" Association="Self.FK_AttendanceFingerprints_Collaborators">
+            <End Role="Collaborators" EntitySet="Collaborators" />
+            <End Role="AttendanceFingerprints" EntitySet="AttendanceFingerprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceSessions_Collaborators" Association="Self.FK_AttendanceSessions_Collaborators">
+            <End Role="Collaborators" EntitySet="Collaborators" />
+            <End Role="AttendanceSessions" EntitySet="AttendanceSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Collaborators_CollaboratorJobPositions" Association="Self.FK_Collaborators_CollaboratorJobPositions">
+            <End Role="CollaboratorJobPositions" EntitySet="CollaboratorJobPositions" />
+            <End Role="Collaborators" EntitySet="Collaborators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostCentersStatus_CostCenters" Association="Self.FK_CostCentersStatus_CostCenters">
+            <End Role="CostCenterStatus" EntitySet="CostCenterStatus" />
+            <End Role="CostCenters" EntitySet="CostCenters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reasons_WorkCenters" Association="Self.FK_Reasons_WorkCenters">
+            <End Role="Reasons" EntitySet="Reasons" />
+            <End Role="WorkCenters" EntitySet="WorkCenters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkCenters_AttendanceLocation" Association="Self.FK_WorkCenters_AttendanceLocation">
+            <End Role="AttendanceLocations" EntitySet="AttendanceLocations" />
+            <End Role="WorkCenters" EntitySet="WorkCenters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkCenters_CostCenters" Association="Self.FK_WorkCenters_CostCenters">
+            <End Role="WorkCenters" EntitySet="WorkCenters" />
+            <End Role="CostCenters" EntitySet="CostCenters" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ASFAPIDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AttendanceApiKeys">
+          <Key>
+            <PropertyRef Name="KeyId" />
+          </Key>
+          <Property Name="KeyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KeyApi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AttendanceEvents">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SessionId" Type="Int32" Nullable="false" />
+          <Property Name="CollaboratorId" Type="Int32" Nullable="false" />
+          <Property Name="CostCenterId" Type="Int32" Nullable="false" />
+          <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AttendanceSessions" Relationship="Self.FK_AttendanceEvents_AttendanceSessions" FromRole="AttendanceEvents" ToRole="AttendanceSessions" />
+          <NavigationProperty Name="Collaborators" Relationship="Self.FK_AttendanceEvents_Collaborators" FromRole="AttendanceEvents" ToRole="Collaborators" />
+          <NavigationProperty Name="CostCenters" Relationship="Self.FK_AttendanceEvents_CostCenters" FromRole="AttendanceEvents" ToRole="CostCenters" />
+        </EntityType>
+        <EntityType Name="AttendanceFingerprints">
+          <Key>
+            <PropertyRef Name="FingerprintId" />
+          </Key>
+          <Property Name="FingerprintId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CollaboratorId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="Fingerprint" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AttendanceRoles" Relationship="Self.FK_AttendanceFingerprints_AttendanceRoles" FromRole="AttendanceFingerprints" ToRole="AttendanceRoles" />
+          <NavigationProperty Name="Collaborators" Relationship="Self.FK_AttendanceFingerprints_Collaborators" FromRole="AttendanceFingerprints" ToRole="Collaborators" />
+        </EntityType>
+        <EntityType Name="AttendanceLocations">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <NavigationProperty Name="WorkCenters" Relationship="Self.FK_WorkCenters_AttendanceLocation" FromRole="AttendanceLocations" ToRole="WorkCenters" />
+        </EntityType>
+        <EntityType Name="AttendanceRoles">
+          <Key>
+            <PropertyRef Name="RolId" />
+          </Key>
+          <Property Name="RolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RolName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Inactive" Type="Boolean" />
+          <NavigationProperty Name="AttendanceFingerprints" Relationship="Self.FK_AttendanceFingerprints_AttendanceRoles" FromRole="AttendanceRoles" ToRole="AttendanceFingerprints" />
+        </EntityType>
+        <EntityType Name="AttendanceSessions">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CollaboratorId" Type="Int32" Nullable="false" />
+          <Property Name="StartAS" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndAS" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AttendanceEvents" Relationship="Self.FK_AttendanceEvents_AttendanceSessions" FromRole="AttendanceSessions" ToRole="AttendanceEvents" />
+          <NavigationProperty Name="Collaborators" Relationship="Self.FK_AttendanceSessions_Collaborators" FromRole="AttendanceSessions" ToRole="Collaborators" />
+        </EntityType>
+        <EntityType Name="CollaboratorJobPositions">
+          <Key>
+            <PropertyRef Name="CollaboratorJobPositionId" />
+          </Key>
+          <Property Name="CollaboratorJobPositionId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mnemonic" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CostNormalHour" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CostExtraHour" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Collaborators" Relationship="Self.FK_Collaborators_CollaboratorJobPositions" FromRole="CollaboratorJobPositions" ToRole="Collaborators" />
+        </EntityType>
+        <EntityType Name="Collaborators">
+          <Key>
+            <PropertyRef Name="CollaboratorId" />
+          </Key>
+          <Property Name="CollaboratorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firstname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Lastname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Lastname2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EMail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Tag" Type="Int32" />
+          <Property Name="CoordinatorLocationId" Type="Int32" />
+          <Property Name="CollaboratorJobPositionId" Type="Int16" />
+          <Property Name="AdmissionDate" Type="DateTime" Precision="0" />
+          <Property Name="NSS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CURP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="BACcount" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ResidenceId" Type="Int32" />
+          <Property Name="RFC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="StateId" Type="Int32" />
+          <Property Name="Proof" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IdEvent" Type="Int32" />
+          <Property Name="CreditNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DiscountFactor" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DiscountTypeId" Type="Int32" />
+          <Property Name="ApplyInfonavitData" Type="Boolean" />
+          <Property Name="Inactive" Type="Boolean" />
+          <Property Name="RowVersion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AttendanceEvents" Relationship="Self.FK_AttendanceEvents_Collaborators" FromRole="Collaborators" ToRole="AttendanceEvents" />
+          <NavigationProperty Name="AttendanceFingerprints" Relationship="Self.FK_AttendanceFingerprints_Collaborators" FromRole="Collaborators" ToRole="AttendanceFingerprints" />
+          <NavigationProperty Name="AttendanceSessions" Relationship="Self.FK_AttendanceSessions_Collaborators" FromRole="Collaborators" ToRole="AttendanceSessions" />
+          <NavigationProperty Name="CollaboratorJobPositions" Relationship="Self.FK_Collaborators_CollaboratorJobPositions" FromRole="Collaborators" ToRole="CollaboratorJobPositions" />
+        </EntityType>
+        <EntityType Name="CostCenters">
+          <Key>
+            <PropertyRef Name="CostCenterId" />
+          </Key>
+          <Property Name="CostCenterId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="WorkCenterId" Type="Int32" Nullable="false" />
+          <Property Name="Inactive" Type="Boolean" />
+          <Property Name="CostCenterStatusId" Type="Byte" Nullable="false" />
+          <Property Name="ContainsSensitiveInformation" Type="Boolean" />
+          <Property Name="IsGeneric" Type="Boolean" />
+          <Property Name="AllowManualRequisitions" Type="Boolean" />
+          <NavigationProperty Name="AttendanceEvents" Relationship="Self.FK_AttendanceEvents_CostCenters" FromRole="CostCenters" ToRole="AttendanceEvents" />
+          <NavigationProperty Name="CostCenterStatus" Relationship="Self.FK_CostCentersStatus_CostCenters" FromRole="CostCenters" ToRole="CostCenterStatus" />
+          <NavigationProperty Name="WorkCenters" Relationship="Self.FK_WorkCenters_CostCenters" FromRole="CostCenters" ToRole="WorkCenters" />
+        </EntityType>
+        <EntityType Name="CostCenterStatus">
+          <Key>
+            <PropertyRef Name="CostCenterStatusId" />
+          </Key>
+          <Property Name="CostCenterStatusId" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CostCenters" Relationship="Self.FK_CostCentersStatus_CostCenters" FromRole="CostCenterStatus" ToRole="CostCenters" />
+        </EntityType>
+        <EntityType Name="Reasons">
+          <Key>
+            <PropertyRef Name="ReasonId" />
+          </Key>
+          <Property Name="ReasonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="WorkCenters" Relationship="Self.FK_Reasons_WorkCenters" FromRole="Reasons" ToRole="WorkCenters" />
+        </EntityType>
+        <EntityType Name="WorkCenters">
+          <Key>
+            <PropertyRef Name="WorkCenterId" />
+          </Key>
+          <Property Name="WorkCenterId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Site" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ReasonId" Type="Int32" />
+          <Property Name="Inactive" Type="Boolean" />
+          <Property Name="SeeAllCostCenters" Type="Boolean" />
+          <Property Name="FIS" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="LocationId" Type="Int32" />
+          <NavigationProperty Name="AttendanceLocations" Relationship="Self.FK_WorkCenters_AttendanceLocation" FromRole="WorkCenters" ToRole="AttendanceLocations" />
+          <NavigationProperty Name="CostCenters" Relationship="Self.FK_WorkCenters_CostCenters" FromRole="WorkCenters" ToRole="CostCenters" />
+          <NavigationProperty Name="Reasons" Relationship="Self.FK_Reasons_WorkCenters" FromRole="WorkCenters" ToRole="Reasons" />
+        </EntityType>
+        <Association Name="FK_AttendanceEvents_AttendanceSessions">
+          <End Role="AttendanceSessions" Type="Self.AttendanceSessions" Multiplicity="1" />
+          <End Role="AttendanceEvents" Type="Self.AttendanceEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceSessions">
+              <PropertyRef Name="SessionId" />
+            </Principal>
+            <Dependent Role="AttendanceEvents">
+              <PropertyRef Name="SessionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceEvents_Collaborators">
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="1" />
+          <End Role="AttendanceEvents" Type="Self.AttendanceEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collaborators">
+              <PropertyRef Name="CollaboratorId" />
+            </Principal>
+            <Dependent Role="AttendanceEvents">
+              <PropertyRef Name="CollaboratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceEvents_CostCenters">
+          <End Role="CostCenters" Type="Self.CostCenters" Multiplicity="1" />
+          <End Role="AttendanceEvents" Type="Self.AttendanceEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCenters">
+              <PropertyRef Name="CostCenterId" />
+            </Principal>
+            <Dependent Role="AttendanceEvents">
+              <PropertyRef Name="CostCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceFingerprints_AttendanceRoles">
+          <End Role="AttendanceRoles" Type="Self.AttendanceRoles" Multiplicity="1" />
+          <End Role="AttendanceFingerprints" Type="Self.AttendanceFingerprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceRoles">
+              <PropertyRef Name="RolId" />
+            </Principal>
+            <Dependent Role="AttendanceFingerprints">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceFingerprints_Collaborators">
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="1" />
+          <End Role="AttendanceFingerprints" Type="Self.AttendanceFingerprints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collaborators">
+              <PropertyRef Name="CollaboratorId" />
+            </Principal>
+            <Dependent Role="AttendanceFingerprints">
+              <PropertyRef Name="CollaboratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkCenters_AttendanceLocation">
+          <End Role="AttendanceLocations" Type="Self.AttendanceLocations" Multiplicity="0..1" />
+          <End Role="WorkCenters" Type="Self.WorkCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AttendanceLocations">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="WorkCenters">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttendanceSessions_Collaborators">
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="1" />
+          <End Role="AttendanceSessions" Type="Self.AttendanceSessions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Collaborators">
+              <PropertyRef Name="CollaboratorId" />
+            </Principal>
+            <Dependent Role="AttendanceSessions">
+              <PropertyRef Name="CollaboratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Collaborators_CollaboratorJobPositions">
+          <End Role="CollaboratorJobPositions" Type="Self.CollaboratorJobPositions" Multiplicity="0..1" />
+          <End Role="Collaborators" Type="Self.Collaborators" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CollaboratorJobPositions">
+              <PropertyRef Name="CollaboratorJobPositionId" />
+            </Principal>
+            <Dependent Role="Collaborators">
+              <PropertyRef Name="CollaboratorJobPositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostCentersStatus_CostCenters">
+          <End Role="CostCenterStatus" Type="Self.CostCenterStatus" Multiplicity="1" />
+          <End Role="CostCenters" Type="Self.CostCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCenterStatus">
+              <PropertyRef Name="CostCenterStatusId" />
+            </Principal>
+            <Dependent Role="CostCenters">
+              <PropertyRef Name="CostCenterStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkCenters_CostCenters">
+          <End Role="WorkCenters" Type="Self.WorkCenters" Multiplicity="1" />
+          <End Role="CostCenters" Type="Self.CostCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkCenters">
+              <PropertyRef Name="WorkCenterId" />
+            </Principal>
+            <Dependent Role="CostCenters">
+              <PropertyRef Name="WorkCenterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reasons_WorkCenters">
+          <End Role="Reasons" Type="Self.Reasons" Multiplicity="0..1" />
+          <End Role="WorkCenters" Type="Self.WorkCenters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reasons">
+              <PropertyRef Name="ReasonId" />
+            </Principal>
+            <Dependent Role="WorkCenters">
+              <PropertyRef Name="ReasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ASF_APIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AttendanceApiKeys" EntityType="Self.AttendanceApiKeys" />
+          <EntitySet Name="AttendanceEvents" EntityType="Self.AttendanceEvents" />
+          <EntitySet Name="AttendanceFingerprints" EntityType="Self.AttendanceFingerprints" />
+          <EntitySet Name="AttendanceLocations" EntityType="Self.AttendanceLocations" />
+          <EntitySet Name="AttendanceRoles" EntityType="Self.AttendanceRoles" />
+          <EntitySet Name="AttendanceSessions" EntityType="Self.AttendanceSessions" />
+          <EntitySet Name="CollaboratorJobPositions" EntityType="Self.CollaboratorJobPositions" />
+          <EntitySet Name="Collaborators" EntityType="Self.Collaborators" />
+          <EntitySet Name="CostCenters" EntityType="Self.CostCenters" />
+          <EntitySet Name="CostCenterStatus" EntityType="Self.CostCenterStatus" />
+          <EntitySet Name="Reasons" EntityType="Self.Reasons" />
+          <EntitySet Name="WorkCenters" EntityType="Self.WorkCenters" />
+          <AssociationSet Name="FK_AttendanceEvents_AttendanceSessions" Association="Self.FK_AttendanceEvents_AttendanceSessions">
+            <End Role="AttendanceSessions" EntitySet="AttendanceSessions" />
+            <End Role="AttendanceEvents" EntitySet="AttendanceEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceEvents_Collaborators" Association="Self.FK_AttendanceEvents_Collaborators">
+            <End Role="Collaborators" EntitySet="Collaborators" />
+            <End Role="AttendanceEvents" EntitySet="AttendanceEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceEvents_CostCenters" Association="Self.FK_AttendanceEvents_CostCenters">
+            <End Role="CostCenters" EntitySet="CostCenters" />
+            <End Role="AttendanceEvents" EntitySet="AttendanceEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceFingerprints_AttendanceRoles" Association="Self.FK_AttendanceFingerprints_AttendanceRoles">
+            <End Role="AttendanceRoles" EntitySet="AttendanceRoles" />
+            <End Role="AttendanceFingerprints" EntitySet="AttendanceFingerprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceFingerprints_Collaborators" Association="Self.FK_AttendanceFingerprints_Collaborators">
+            <End Role="Collaborators" EntitySet="Collaborators" />
+            <End Role="AttendanceFingerprints" EntitySet="AttendanceFingerprints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkCenters_AttendanceLocation" Association="Self.FK_WorkCenters_AttendanceLocation">
+            <End Role="AttendanceLocations" EntitySet="AttendanceLocations" />
+            <End Role="WorkCenters" EntitySet="WorkCenters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttendanceSessions_Collaborators" Association="Self.FK_AttendanceSessions_Collaborators">
+            <End Role="Collaborators" EntitySet="Collaborators" />
+            <End Role="AttendanceSessions" EntitySet="AttendanceSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Collaborators_CollaboratorJobPositions" Association="Self.FK_Collaborators_CollaboratorJobPositions">
+            <End Role="CollaboratorJobPositions" EntitySet="CollaboratorJobPositions" />
+            <End Role="Collaborators" EntitySet="Collaborators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostCentersStatus_CostCenters" Association="Self.FK_CostCentersStatus_CostCenters">
+            <End Role="CostCenterStatus" EntitySet="CostCenterStatus" />
+            <End Role="CostCenters" EntitySet="CostCenters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkCenters_CostCenters" Association="Self.FK_WorkCenters_CostCenters">
+            <End Role="WorkCenters" EntitySet="WorkCenters" />
+            <End Role="CostCenters" EntitySet="CostCenters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reasons_WorkCenters" Association="Self.FK_Reasons_WorkCenters">
+            <End Role="Reasons" EntitySet="Reasons" />
+            <End Role="WorkCenters" EntitySet="WorkCenters" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ASFAPIDataModelStoreContainer" CdmEntityContainer="ASF_APIEntities">
+          <EntitySetMapping Name="AttendanceApiKeys">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.AttendanceApiKeys">
+              <MappingFragment StoreEntitySet="AttendanceApiKeys">
+                <ScalarProperty Name="KeyId" ColumnName="KeyId" />
+                <ScalarProperty Name="KeyApi" ColumnName="KeyApi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceEvents">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.AttendanceEvents">
+              <MappingFragment StoreEntitySet="AttendanceEvents">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="CollaboratorId" ColumnName="CollaboratorId" />
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceFingerprints">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.AttendanceFingerprints">
+              <MappingFragment StoreEntitySet="AttendanceFingerprints">
+                <ScalarProperty Name="FingerprintId" ColumnName="FingerprintId" />
+                <ScalarProperty Name="CollaboratorId" ColumnName="CollaboratorId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Fingerprint" ColumnName="Fingerprint" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceLocations">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.AttendanceLocations">
+              <MappingFragment StoreEntitySet="AttendanceLocations">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceRoles">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.AttendanceRoles">
+              <MappingFragment StoreEntitySet="AttendanceRoles">
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+                <ScalarProperty Name="RolName" ColumnName="RolName" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceSessions">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.AttendanceSessions">
+              <MappingFragment StoreEntitySet="AttendanceSessions">
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="CollaboratorId" ColumnName="CollaboratorId" />
+                <ScalarProperty Name="StartAS" ColumnName="StartAS" />
+                <ScalarProperty Name="EndAS" ColumnName="EndAS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollaboratorJobPositions">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.CollaboratorJobPositions">
+              <MappingFragment StoreEntitySet="CollaboratorJobPositions">
+                <ScalarProperty Name="CollaboratorJobPositionId" ColumnName="CollaboratorJobPositionId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mnemonic" ColumnName="Mnemonic" />
+                <ScalarProperty Name="CostNormalHour" ColumnName="CostNormalHour" />
+                <ScalarProperty Name="CostExtraHour" ColumnName="CostExtraHour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Collaborators">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.Collaborators">
+              <MappingFragment StoreEntitySet="Collaborators">
+                <ScalarProperty Name="CollaboratorId" ColumnName="CollaboratorId" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Lastname2" ColumnName="Lastname2" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="CoordinatorLocationId" ColumnName="CoordinatorLocationId" />
+                <ScalarProperty Name="CollaboratorJobPositionId" ColumnName="CollaboratorJobPositionId" />
+                <ScalarProperty Name="AdmissionDate" ColumnName="AdmissionDate" />
+                <ScalarProperty Name="NSS" ColumnName="NSS" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="BACcount" ColumnName="BACcount" />
+                <ScalarProperty Name="ResidenceId" ColumnName="ResidenceId" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="Proof" ColumnName="Proof" />
+                <ScalarProperty Name="IdEvent" ColumnName="IdEvent" />
+                <ScalarProperty Name="CreditNumber" ColumnName="CreditNumber" />
+                <ScalarProperty Name="DiscountFactor" ColumnName="DiscountFactor" />
+                <ScalarProperty Name="DiscountTypeId" ColumnName="DiscountTypeId" />
+                <ScalarProperty Name="ApplyInfonavitData" ColumnName="ApplyInfonavitData" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCenters">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.CostCenters">
+              <MappingFragment StoreEntitySet="CostCenters">
+                <ScalarProperty Name="CostCenterId" ColumnName="CostCenterId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="WorkCenterId" ColumnName="WorkCenterId" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="CostCenterStatusId" ColumnName="CostCenterStatusId" />
+                <ScalarProperty Name="ContainsSensitiveInformation" ColumnName="ContainsSensitiveInformation" />
+                <ScalarProperty Name="IsGeneric" ColumnName="IsGeneric" />
+                <ScalarProperty Name="AllowManualRequisitions" ColumnName="AllowManualRequisitions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCenterStatus">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.CostCenterStatus">
+              <MappingFragment StoreEntitySet="CostCenterStatus">
+                <ScalarProperty Name="CostCenterStatusId" ColumnName="CostCenterStatusId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reasons">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.Reasons">
+              <MappingFragment StoreEntitySet="Reasons">
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkCenters">
+            <EntityTypeMapping TypeName="ASFAPIDataModel.WorkCenters">
+              <MappingFragment StoreEntitySet="WorkCenters">
+                <ScalarProperty Name="WorkCenterId" ColumnName="WorkCenterId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Site" ColumnName="Site" />
+                <ScalarProperty Name="ReasonId" ColumnName="ReasonId" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="SeeAllCostCenters" ColumnName="SeeAllCostCenters" />
+                <ScalarProperty Name="FIS" ColumnName="FIS" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,355 @@
+﻿@model IEnumerable<ASF.ERP.Attendance.Models.AttendanceEvents>
+
+@*@section scripts
+    {
+        <script>
+            runListAttendance();
+
+            function runListAttendance() {
+                if (window.$)
+                    scriptPartialListAttendance();
+                else
+                    setTimeout(runListAttendance, 100);
+            }
+
+            var table;
+            function scriptPartialListAttendance() {
+                $(document).ready(function () {
+                    bindDatatable();
+                });
+
+                function hideSearchInputs(columns) {
+                    for (i = 0; i < columns.length; i++) {
+                        if (columns[i])
+                            $('#dtInputSearchCol' + i).attr('hidden', false);
+                        else
+                            $('#dtInputSearchCol' + i).attr('hidden', true);
+                    }
+                }
+
+                function bindDatatable() {
+                    $('#dtAttendance thead tr').clone(true).appendTo('#dtAttendance thead');
+                    $('#dtAttendance thead tr:eq(1) th').each(function (i) {
+
+                        var title = $(this).text();
+                        if (title != 'Acciones') {
+                            //Agrega el cuadro de búsqueda para cada columna excepto a la columna acciones
+                            $(this).html('<input id="dtInputSearchCol' + i + '" type="text" class="form-control form-control-sm m-0 p-1 w-90 text-danger inputSearch" placeholder="Buscar" />');
+                        }
+                        else {
+                            //Coloca botones para aplicar y borrar filtros
+                            $(this).html('<button type="button" class="btn btn-rounded btn-secondary btnSearch mr-1"><i class="mdi mdi-search-web"></i></button>' +
+                                         '<button type="button" class="btn btn-rounded btn-secondary btnClear"><i class="mdi mdi-filter-remove"></i></button>');
+
+                            $('.btnClear', this).click(function (e) {
+
+                                //Al presionar el botón limpia todos los cuadros de texto de las columnas
+                                $('input', $('thead tr:eq(1) th')).val('');
+
+                                //Borra el filtro de cada columna aplicado al datatable
+                                table.columns().eq(0).each(function (index) {
+                                    table.column(index).search('');
+                                });
+                                table.search('');
+                                table.draw();
+                            });
+
+                            $('.btnSearch', this).click(function (e) {
+                                table.search($("div.dataTables_filter input").val());
+                                table.columns().every(function (i) {
+                                    if ($('#dtInputSearchCol' + i).length > 0) {
+
+                                        let inputSearchValue = $('#dtInputSearchCol' + i).val();
+                                        if (table.column(i).search() !== inputSearchValue)
+                                            table.column(i).search(inputSearchValue);
+                                    }
+                                });
+
+                                table.draw();
+                            });
+                        }
+                    });
+
+                    table = $('#dtAttendance').DataTable({
+                        "proccessing": true,
+                        "serverSide": true,
+                        "ajax": {
+                            url: "@Url.Action("AttendanceListIndex", "Home")",
+                            type: 'POST'
+                        },
+                        "bSearchable": true,
+                        pageLength: 50,
+                        fixedHeader: true,
+                        ordering: true,
+                        order: [], //Sin orden por deafult
+                        orderCellsTop: true,
+                        responsive: true,
+                        "language": {
+                            "emptyTable": "No se encontraron registros de asistencias",
+                            "processing": '<div class="spinner-grow text-warning" role="status"><span class="sr-only"> Loading...</span></div >'
+                        },
+                        columnDefs: [
+                            { "targets": 0, "width": "5%", "responsivePriority": 1 },
+                            { "targets": 1, "width": "10%", "responsivePriority": 3 },
+                            { "targets": 2, "width": "20%" },
+                            { "targets": 3, "width": "20%" },
+                            { "targets": 4, "width": "10%" },
+                            { "targets": 5, "width": "10%" },
+                            { "targets": 6, "width": "10%" },
+                            { "targets": 7, "width": "10%" },
+                            { "targets": 8, "width": "5%", "responsivePriority": 2, "orderable": false }
+                        ],
+                        "columns": [
+                            {
+                                "data": "CollaboratorId",
+                                "autoWidth": true,
+                                "searchable": true,
+                                //"createdCell": function (td, cellData, rowData, row, col) {
+                                //    $(td).html('<a href="/Requisitions/RequisitionDetails/' + rowData.RequisitionId + '">' + rowData.RequisitionId + '</a>');
+                                //}
+                            },
+                            {
+                                "data": "Fullname",
+                                "autoWidth": true,
+                                "searchable": true,
+                            },
+                            {
+                                "data": "JobPosition",
+                                "autoWidth": true,
+                                "searchable": true
+                            },
+                            {
+                                "data": "WorkCentersName",
+                                "autoWidth": true,
+                                "searchable": true
+                            },
+                            {
+                                "data": "CostCentersName",
+                                "autoWidth": true,
+                                "searchable": true
+                            },
+                            {
+                                "data": "LocalDatetime",
+                                "autoWidth": true,
+                                "searchable": true
+                            },
+                            {
+                                "data": "Supervisor",
+                                "autoWidth": true,
+                                "searchable": true
+                            },
+                            {
+                                "data": "Location",
+                                "autoWidth": true,
+                                "searchable": true,
+                            }
+                            //{
+                            //    data: null,
+                            //    "searchable": false,
+                            //    "createdCell": function (td, cellData, rowData, row, col) {
+                            //        var reportString = '';
+                            //        reportString = '<a href="/Reports/RequisitionReport.aspx?requisitionId=' + rowData.RequisitionId + '" target="_blank" class="m-1"><i class="far fa-list-alt"></i></a>';
+                            //        $(td).html(reportString);
+                            //    }
+                            //}
+                        ],
+                        stateSave: true,
+                        stateSaveCallback: function (settings, data) {
+                            //Guarda el estado actual de la tabla, filtros, pagina, etc
+                            sessionStorage.setItem('DataTables_' + window.location.pathname + '_@HttpContext.Current.User.Identity.Name', JSON.stringify(data))
+                        },
+                        stateLoadCallback: function (settings) {
+                            //Carga el estado previo del datatable
+                            let data = sessionStorage.getItem('DataTables_' + window.location.pathname + '_@HttpContext.Current.User.Identity.Name');
+                            let json = JSON.parse(data);
+                            if (json != null) {
+                                // Carga el estado previo de la lista de tipos de requisiciones
+                                let columnSelSearch = 7;
+                                if (json.columns[columnSelSearch].search.search != null && json.columns[columnSelSearch].search.search != '')
+                                    $('#dtSelSearchCol' + columnSelSearch).val(json.columns[columnSelSearch].search.search);
+                            }
+                            return json;
+                        }
+                    });
+
+                    // Quita el enlace de busqueda automática
+                    $("div.dataTables_filter input").unbind();
+
+                    // Oculta los controles de búsqueda para columnas que se ocultan al cambiar el tamaño de la tabla
+                    table.on('responsive-resize', function (e, datatable, columns) {
+                        hideSearchInputs(columns);
+                    });
+
+                    //Coloca el último estado del filtro de cada columna
+                    //Este código sirve para cargar el último filtro de cada columna
+                    var state = table.state.loaded();
+
+                    if (state) {
+                        table.columns().eq(0).each(function (colIdx) {
+                            var colSearch = state.columns[colIdx].search;
+
+                            if (colSearch.search)
+                                $('input', $('thead tr:eq(1) th')[colIdx]).val(colSearch.search);
+                        });
+                        table.draw();
+                    }
+                }
+            }
+        </script>
+    }
+
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <h3 class="mt-2 ml-3">Control de Asistencias | <strong>Lista General</strong></h3>
+                <div class="card-body">
+                    <div id="listOfAttendance">
+                        <div class="table-responsive m-t-40">
+                            <p class="text-center"></p>
+                            <table class="table table-bordered m-2" id="dtAttendance">
+                                <thead>
+                                    <tr>
+                                        <th>No. Colaborador</th>
+                                        <th>Nombre</th>
+                                        <th>Puesto</th>
+                                        <th>C. de Trabajo</th>
+                                        <th>C. de Costos</th>
+                                        <th>Fecha y hora</th>
+                                        <th>Admin. Sesión</th>
+                                        <th>Ubicación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+
+@section scripts
+{
+    <script>
+        $('#dtAttendance thead tr').clone(true).appendTo('#dtAttendance thead');
+        $('#dtAttendance thead tr:eq(1) th').each(function (i) {
+            var title = $(this).text();
+            if (title != 'Acciones')
+                $(this).html('<input id="dtInputSearchCol' + i + '" type="text" class="form-control form-control-sm m-0 p-1 w-90 text-danger inputSearch" placeholder="Buscar" />');
+
+            else {
+                $(this).html('<button type="button" class="btn btn-rounded btn-secondary btnSearch mr-1"><i class="mdi mdi-search-web"></i></button>' +
+                             '<button type="button" class="btn btn-rounded btn-secondary btnClear"><i class="mdi mdi-filter-remove"></i></button>');
+
+                $('.btnClear', this).click(function (e) {
+                    $('input', $('thead tr:eq(1) th')).val('');
+                    table.columns().eq(0).each(function (index) {
+                        table.column(index).search('');
+                    });
+                    table.search('');
+                    table.draw();
+                });
+
+                $('.btnSearch', this).click(function (e) {
+                    table.search($("div.dataTables_filter input").val());
+                    table.columns().every(function (i) {
+                        if ($('#dtInputSearchCol' + i).length > 0) {
+                            let inputSearchValue = $('#dtInputSearchCol' + i).val();
+                            if (table.column(i).search() !== inputSearchValue)
+                                table.column(i).search(inputSearchValue);
+                        }
+                    });
+                    table.draw();
+                });
+            }
+        });
+
+        /*let table = new DataTable('#myTable');*/
+        var table = $('#dtAttendance').DataTable({
+            'pageLength': 25,
+            'orderCellsTop': true,
+            'fixedHeader': true,
+            'order': [],
+                columnDefs: [
+                    { "targets": 0, "width": "5%", "responsivePriority": 1 },
+                    { "targets": 1, "responsivePriority": 3 },
+                    { "targets": 2 },
+                    { "targets": 3 },
+                    { "targets": 4 },
+                    { "targets": 5 },
+                    { "targets": 6 },
+                    { "targets": 7 },
+                    { "targets": 8, "width": "10%", "responsivePriority": 2, "orderable": false }
+                ],
+                "columns": [
+                    {
+                        "data": "CollaboratorId",
+                        "autoWidth": true,
+                        "searchable": true,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            $(td).html('<a href="/Home/AttendanceInfoDetails/' + rowData.CollaboratorId + '">' + rowData.CollaboratorId + '</a>');
+                        }
+                    },
+                ],
+            stateSave: true,
+            stateSaveCallback: function (settings, data) { 
+            sessionStorage.setItem('DataTables_' + window.location.pathname + '_@HttpContext.Current.User.Identity.Name', JSON.stringify(data))
+            },
+            stateLoadCallback: function (settings) {
+                var data = sessionStorage.getItem('DataTables_' + window.location.pathname + '_@HttpContext.Current.User.Identity.Name');
+                return JSON.parse(data);
+            }
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Historial de Asistencias</h3><hr />
+                <h6 class="card-subtitle"><code></code></h6>
+                <div class="table-responsive m-t-40">
+                    <table width="100%" class="table table-bordered" id="dtAttendance">
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th># Colabo</th>
+                                <th>Nombre</th>
+                                <th>Puesto</th>
+                                <th>C. Trabajo</th>
+                                <th>C. Costos</th>
+                                <th>Fecha/Hora</th>
+                                <th>Admin. Sesión</th>
+                                <th>Ubicación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.EventId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Collaborators.CollaboratorId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Collaborators.Firstname)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Collaborators.CollaboratorJobPositions.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CostCenters.WorkCenters.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CostCenters.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Datetime)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AttendanceSessions.Collaborators.Firstname)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.CostCenters.WorkCenters.AttendanceLocations.Description)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

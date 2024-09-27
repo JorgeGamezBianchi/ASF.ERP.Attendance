@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b15af875c4ef419faef78bc6540cf95e" Name="Diagram1">
+        <EntityTypeShape EntityType="ASFAPIDataModel.AttendanceApiKeys" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.AttendanceEvents" Width="1.5" PointX="5.375" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.AttendanceFingerprints" Width="1.5" PointX="5.375" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.AttendanceLocations" Width="1.5" PointX="8.125" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.AttendanceRoles" Width="1.5" PointX="7.875" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.AttendanceSessions" Width="1.5" PointX="5.375" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.CollaboratorJobPositions" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.Collaborators" Width="1.5" PointX="3.125" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.CostCenters" Width="1.5" PointX="3.125" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.CostCenterStatus" Width="1.5" PointX="1.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.Reasons" Width="1.5" PointX="8.125" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ASFAPIDataModel.WorkCenters" Width="1.5" PointX="5.375" PointY="10.875" IsExpanded="true" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_AttendanceEvents_AttendanceSessions" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_AttendanceEvents_Collaborators" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_AttendanceEvents_CostCenters" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_AttendanceFingerprints_AttendanceRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_AttendanceFingerprints_Collaborators" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_WorkCenters_AttendanceLocation" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_AttendanceSessions_Collaborators" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_Collaborators_CollaboratorJobPositions" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_CostCentersStatus_CostCenters" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_WorkCenters_CostCenters" ManuallyRouted="false" />
+        <AssociationConnector Association="ASFAPIDataModel.FK_Reasons_WorkCenters" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
